@@ -1,0 +1,2221 @@
+{
+	"info": {
+		"_postman_id": "d0b119b7-81b9-4500-b88f-206653630eb8",
+		"name": "GUZPASEN API LOGIN",
+		"description": "Colección para pruebas de la API de autenticación y gestión de usuarios, roles y módulos de GUZPASEN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39420688"
+	},
+	"item": [
+		{
+			"name": "Autenticación",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@guzpasen.edu\",\n    \"clave\": \"password\"\n}"
+						},
+						"url": "{{baseUrl}}/api/auth/login",
+						"description": "Iniciar sesión y obtener token JWT"
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@guzpasen.edu\",\n    \"clave\": \"password\"\n}"
+								},
+									"url": "http://localhost:8084/api/auth/login"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:31:34 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJhcGVsbGlkb3MiOiJTaXN0ZW1hIiwiaWQiOjEsIm5vbWJyZSI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBndXpwYXNlbi5lZHUiLCJyb2wiOiJBRE1JTklTVFJBRE9SIiwic3ViIjoiMSIsImlhdCI6MTc0ODY5NDY5NCwiZXhwIjoxNzQ4NzgxMDk0fQ.TjyfCkWFsDfGNKURzDeIlF_A8HufMU7OPCPJyUjmzsE\",\n    \"userId\": 1,\n    \"nombre\": \"Admin\",\n    \"apellidos\": \"Sistema\",\n    \"email\": \"admin@guzpasen.edu\",\n    \"rol\": \"ADMINISTRADOR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Validar Token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/auth/validate",
+						"description": "Validar un token JWT existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/auth/logout",
+						"description": "Cerrar sesión (invalidar token)"
+					},
+					"response": [
+						{
+							"name": "Logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+									"url": "http://localhost:8084/api/auth/logout"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:57:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"mensaje\": \"Sesión cerrada exitosamente\",\n    \"timestamp\": \"2025-05-31T14:57:05.098814500\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Endpoints para autenticación de usuarios"
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Listar Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios",
+						"description": "Obtener listado de todos los usuarios"
+					},
+					"response": [
+						{
+							"name": "Listar Usuarios",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:33:22 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Admin\",\n        \"apellidos\": \"Sistema\",\n        \"email\": \"admin@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Usuario\",\n        \"apellidos\": \"Modificado\",\n        \"email\": \"modificado@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Juan\",\n        \"apellidos\": \"Rodríguez Martín\",\n        \"email\": \"juan.rodriguez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"INFORMATICA\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 4,\n        \"nombre\": \"Laura\",\n        \"apellidos\": \"Fernández Ruiz\",\n        \"email\": \"laura.fernandez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"LENGUA\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 5,\n        \"nombre\": \"Carlos\",\n        \"apellidos\": \"Pérez Díaz\",\n        \"email\": \"carlos.perez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"GESTOR_INCIDENCIAS\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"Ana\",\n        \"apellidos\": \"López García\",\n        \"email\": \"ana.lopez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"SOPORTE\",\n        \"rol\": \"TECNICO\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 7,\n        \"nombre\": \"Miguel\",\n        \"apellidos\": \"Sánchez Torres\",\n        \"email\": \"miguel.sanchez@guzpasen.edu\",\n        \"activo\": false,\n        \"grupo\": \"CIENCIAS\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 8,\n        \"nombre\": \"Elena\",\n        \"apellidos\": \"Martínez Vargas\",\n        \"email\": \"elena.martinez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"IDIOMAS\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 9,\n        \"nombre\": \"Nuevo\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 10,\n        \"nombre\": \"Nuevo2\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo2@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Obtener Usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/1",
+						"description": "Obtener detalles de un usuario específico por ID"
+					},
+					"response": [
+						{
+							"name": "Obtener Usuario por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/5"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:33:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 5,\n    \"nombre\": \"Carlos\",\n    \"apellidos\": \"Pérez Díaz\",\n    \"email\": \"carlos.perez@guzpasen.edu\",\n    \"activo\": true,\n    \"grupo\": null,\n    \"rol\": \"GESTOR_INCIDENCIAS\",\n    \"usuarioMovil\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Nuevo\",\n    \"apellidos\": \"Usuario\",\n    \"email\": \"nuevo@guzpasen.edu\",\n    \"clave\": \"password\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 1\n    }\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios",
+						"description": "Crear un nuevo usuario en el sistema"
+					},
+					"response": [
+						{
+							"name": "Crear Usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Nuevo2\",\n    \"apellidos\": \"Usuario\",\n    \"email\": \"nuevo2@guzpasen.edu\",\n    \"clave\": \"password\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 1\n    }\n}"
+								},
+								"url": "http://localhost:8084/api/usuarios"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:28:47 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 10,\n    \"nombre\": \"Nuevo2\",\n    \"apellidos\": \"Usuario\",\n    \"email\": \"nuevo2@guzpasen.edu\",\n    \"clave\": \"$2a$10$xF4ICU6g3XbEd55OsbE.VeHKFx9A2omf1IKcG.AwJmlAbgBvTv9m6\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 1,\n        \"nombre\": null,\n        \"descripcion\": null,\n        \"modulosRol\": [],\n        \"usuariosPrincipales\": [],\n        \"usuarios\": []\n    },\n    \"usuarioMovil\": false,\n    \"grupo\": null,\n    \"modulos\": [],\n    \"roles\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Modificar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Usuario\",\n    \"apellidos\": \"Modificado\",\n    \"email\": \"modificado@guzpasen.edu\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 2\n    }\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios/2",
+						"description": "Modificar un usuario existente"
+					},
+					"response": [
+						{
+							"name": "Modificar Usuario",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Usuario\",\n    \"apellidos\": \"Modificado\",\n    \"email\": \"modificado@guzpasen.edu\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 2\n    }\n}"
+								},
+								"url": "http://localhost:8084/api/usuarios/2"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:33:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"nombre\": \"Usuario\",\n    \"apellidos\": \"Modificado\",\n    \"email\": \"modificado@guzpasen.edu\",\n    \"activo\": true,\n    \"grupo\": null,\n    \"rol\": null,\n    \"usuarioMovil\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Desactivar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/2/desactivar",
+						"description": "Desactivar un usuario"
+					},
+					"response": [
+						{
+							"name": "Desactivar Usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/2/desactivar"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:34:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Activar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/2/activar",
+						"description": "Activar un usuario previamente desactivado"
+					},
+					"response": [
+						{
+							"name": "Activar Usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/2/activar"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:35:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Resetear Clave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nuevaClave\": \"nuevapassword\"\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios/2/resetClave",
+						"description": "Resetear la contraseña de un usuario"
+					},
+					"response": [
+						{
+							"name": "Resetear Clave",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nuevaClave\": \"nueva\"\n}"
+								},
+								"url": "http://localhost:8084/api/usuarios/2/resetClave"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:35:31 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Listar Usuarios Activos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/activos",
+						"description": "Obtener listado de usuarios activos"
+					},
+					"response": [
+						{
+							"name": "Listar Usuarios Activos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/activos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:35:38 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Admin\",\n        \"apellidos\": \"Sistema\",\n        \"email\": \"admin@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Usuario\",\n        \"apellidos\": \"Modificado\",\n        \"email\": \"modificado@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Juan\",\n        \"apellidos\": \"Rodríguez Martín\",\n        \"email\": \"juan.rodriguez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"INFORMATICA\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 4,\n        \"nombre\": \"Laura\",\n        \"apellidos\": \"Fernández Ruiz\",\n        \"email\": \"laura.fernandez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"LENGUA\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 5,\n        \"nombre\": \"Carlos\",\n        \"apellidos\": \"Pérez Díaz\",\n        \"email\": \"carlos.perez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"GESTOR_INCIDENCIAS\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"Ana\",\n        \"apellidos\": \"López García\",\n        \"email\": \"ana.lopez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"SOPORTE\",\n        \"rol\": \"TECNICO\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 8,\n        \"nombre\": \"Elena\",\n        \"apellidos\": \"Martínez Vargas\",\n        \"email\": \"elena.martinez@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": \"IDIOMAS\",\n        \"rol\": \"PROFESOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 9,\n        \"nombre\": \"Nuevo\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 10,\n        \"nombre\": \"Nuevo2\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo2@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Listar Usuarios por Rol",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/rol/ADMIN",
+						"description": "Obtener usuarios filtrados por rol"
+					},
+					"response": [
+						{
+							"name": "Listar Usuarios por Rol",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/rol/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Jun 2025 18:29:20 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Admin\",\n        \"apellidos\": \"Sistema\",\n        \"email\": \"admin@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": true\n    },\n    {\n        \"id\": 9,\n        \"nombre\": \"Nuevo\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 10,\n        \"nombre\": \"Nuevo2\",\n        \"apellidos\": \"Usuario\",\n        \"email\": \"nuevo2@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    },\n    {\n        \"id\": 11,\n        \"nombre\": \"PruebaCrear\",\n        \"apellidos\": \"Pepe\",\n        \"email\": \"Pepe@guzpasen.edu\",\n        \"activo\": true,\n        \"grupo\": null,\n        \"rol\": \"ADMINISTRADOR\",\n        \"usuarioMovil\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Asignar Módulo a Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/2/modulos/1",
+						"description": "Asignar un módulo a un usuario"
+					},
+					"response": [
+						{
+							"name": "Asignar Módulo a Usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/2/modulos/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:39:44 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Quitar Módulo de Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/2/modulos/1",
+						"description": "Quitar un módulo de un usuario"
+					},
+					"response": [
+						{
+							"name": "Quitar Módulo de Usuario",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:8084/api/usuarios/2/modulos/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:40:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener Módulos de Usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/1/modulos",
+						"description": "Obtener listado de módulos asignados a un usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Validar Permiso de Usuario a Módulo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/usuarios/1/permiso/Usuarios",
+						"description": "Validar si un usuario tiene permiso para acceder a un módulo específico"
+					},
+					"response": [
+						{
+							"name": "Validar Permiso de Usuario a Módulo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/usuarios/1/permiso/Usuarios"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Jun 2025 18:29:45 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tienePermiso\": true\n}"
+						}
+					]
+				}
+			],
+			"description": "Endpoints para gestión de usuarios"
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Listar Roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/roles",
+						"description": "Obtener listado de todos los roles"
+					},
+					"response": [
+						{
+							"name": "Listar Roles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/roles"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:42:51 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"ADMINISTRADOR\",\n        \"descripcion\": \"Rol con acceso completo a todos los módulos del sistema\"\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"PROFESOR\",\n        \"descripcion\": \"Rol para docentes con acceso a módulos académicos\"\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"GESTOR_INCIDENCIAS\",\n        \"descripcion\": \"Rol para personal que gestiona tickets e incidencias\"\n    },\n    {\n        \"id\": 4,\n        \"nombre\": \"TECNICO\",\n        \"descripcion\": \"Rol para personal de soporte técnico\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Obtener Rol por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/roles/1",
+						"description": "Obtener detalles de un rol específico por ID"
+					},
+					"response": [
+						{
+							"name": "Obtener Rol por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/roles/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:42:59 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"nombre\": \"ADMINISTRADOR\",\n    \"descripcion\": \"Rol con acceso completo a todos los módulos del sistema\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear Rol",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"PROFESOR\",\n    \"descripcion\": \"Rol para profesores\"\n}"
+						},
+						"url": "{{baseUrl}}/api/roles",
+						"description": "Crear un nuevo rol en el sistema"
+					},
+					"response": [
+						{
+							"name": "Crear Rol",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"PRUEBAS\",\n    \"descripcion\": \"Rol para pruebas\"\n}"
+								},
+								"url": "{{baseUrl}}/api/roles"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:43:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 5,\n    \"nombre\": \"PRUEBAS\",\n    \"descripcion\": \"Rol para pruebas\",\n    \"modulosRol\": [],\n    \"usuariosPrincipales\": [],\n    \"usuarios\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Modificar Rol",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"PROFESOR\",\n    \"descripcion\": \"Rol para profesores del centro\"\n}"
+						},
+						"url": "{{baseUrl}}/api/roles/3",
+						"description": "Modificar un rol existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Rol por Nombre",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/roles/nombre/ADMIN",
+						"description": "Obtener un rol por su nombre exacto"
+					},
+					"response": [
+						{
+							"name": "Obtener Rol por Nombre",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/roles/nombre/PROFESOR"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:44:46 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"nombre\": \"PROFESOR\",\n    \"descripcion\": \"Rol para docentes con acceso a módulos académicos\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Asignar Módulo a Rol",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/roles/2/modulos/1",
+						"description": "Asignar un módulo a un rol"
+					},
+					"response": []
+				},
+				{
+					"name": "Quitar Módulo de Rol",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/roles/2/modulos/1",
+						"description": "Quitar un módulo de un rol"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de roles"
+		},
+		{
+			"name": "Módulos",
+			"item": [
+				{
+					"name": "Listar Módulos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/modulos",
+						"description": "Obtener listado de todos los módulos"
+					},
+					"response": [
+						{
+							"name": "Listar Módulos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/modulos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:46:29 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"DASHBOARD\",\n        \"descripcion\": \"Panel principal con resumen de actividad\",\n        \"activo\": true\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"USUARIOS\",\n        \"descripcion\": \"Gestión de usuarios del sistema\",\n        \"activo\": true\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"ROLES\",\n        \"descripcion\": \"Administración de roles y permisos\",\n        \"activo\": true\n    },\n    {\n        \"id\": 4,\n        \"nombre\": \"MODULOS\",\n        \"descripcion\": \"Configuración de módulos del sistema\",\n        \"activo\": true\n    },\n    {\n        \"id\": 5,\n        \"nombre\": \"GRUPOS\",\n        \"descripcion\": \"Gestión de grupos de usuarios\",\n        \"activo\": true\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"INCIDENCIAS\",\n        \"descripcion\": \"Sistema de tickets e incidencias\",\n        \"activo\": true\n    },\n    {\n        \"id\": 7,\n        \"nombre\": \"CALENDARIO\",\n        \"descripcion\": \"Calendario de eventos y actividades\",\n        \"activo\": true\n    },\n    {\n        \"id\": 8,\n        \"nombre\": \"REPORTES\",\n        \"descripcion\": \"Generación de informes y estadísticas\",\n        \"activo\": true\n    },\n    {\n        \"id\": 9,\n        \"nombre\": \"CONFIGURACION\",\n        \"descripcion\": \"Configuración general del sistema\",\n        \"activo\": true\n    },\n    {\n        \"id\": 10,\n        \"nombre\": \"AYUDA\",\n        \"descripcion\": \"Sistema de ayuda y documentación\",\n        \"activo\": true\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Obtener Módulo por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/modulos/1",
+						"description": "Obtener detalles de un módulo específico por ID"
+					},
+					"response": [
+						{
+							"name": "Obtener Módulo por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/modulos/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:49:47 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"nombre\": \"DASHBOARD\",\n    \"descripcion\": \"Panel principal con resumen de actividad\",\n    \"activo\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear Módulo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones\",\n    \"activo\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/modulos",
+						"description": "Crear un nuevo módulo en el sistema"
+					},
+					"response": [
+						{
+							"name": "Crear Módulo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones\",\n    \"activo\": true\n}"
+								},
+								"url": "{{baseUrl}}/api/modulos"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 31 May 2025 12:49:30 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 11,\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones\",\n    \"usuarios\": [],\n    \"activo\": true,\n    \"roles\": \"ninguno\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Modificar Módulo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones y expedientes\",\n    \"activo\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/modulos/3",
+						"description": "Modificar un módulo existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Módulo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/modulos/3",
+						"description": "Eliminar un módulo del sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Módulo por Nombre",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/modulos/nombre/Usuarios",
+						"description": "Obtener un módulo por su nombre exacto"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Módulos por Rol",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/modulos/rol/ADMIN",
+						"description": "Obtener módulos filtrados por rol"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de módulos"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8084"
+		},
+		{
+			"key": "token",
+			"value": "YOUR_JWT_TOKEN"
+		}
+	]
+}

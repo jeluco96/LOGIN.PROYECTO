@@ -1,0 +1,723 @@
+{
+  "info": {
+    "_postman_id": "af24c18d-e0e5-4ab3-b8c3-9c57c7e2d7ae",
+    "name": "GUZPASEN API",
+    "description": "Colección para pruebas de la API de autenticación y gestión de usuarios, roles y módulos de GUZPASEN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "description": "Endpoints para autenticación de usuarios",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@guzpasen.edu\",\n    \"clave\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Iniciar sesión y obtener token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Validar Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "validate"]
+            },
+            "description": "Validar un token JWT existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Cerrar sesión (invalidar token)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "description": "Endpoints para gestión de usuarios",
+      "item": [
+        {
+          "name": "Listar Usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios"]
+            },
+            "description": "Obtener listado de todos los usuarios"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "1"]
+            },
+            "description": "Obtener detalles de un usuario específico por ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Nuevo\",\n    \"apellidos\": \"Usuario\",\n    \"email\": \"nuevo@guzpasen.edu\",\n    \"clave\": \"password\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 1\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios"]
+            },
+            "description": "Crear un nuevo usuario en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Modificar Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Usuario\",\n    \"apellidos\": \"Modificado\",\n    \"email\": \"modificado@guzpasen.edu\",\n    \"activo\": true,\n    \"rol\": {\n        \"id\": 2\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2"]
+            },
+            "description": "Modificar un usuario existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Desactivar Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2/desactivar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2", "desactivar"]
+            },
+            "description": "Desactivar un usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Activar Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2/activar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2", "activar"]
+            },
+            "description": "Activar un usuario previamente desactivado"
+          },
+          "response": []
+        },
+        {
+          "name": "Resetear Clave",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nuevaClave\": \"nuevapassword\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2/resetClave",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2", "resetClave"]
+            },
+            "description": "Resetear la contraseña de un usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Usuarios Activos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/activos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "activos"]
+            },
+            "description": "Obtener listado de usuarios activos"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Usuarios por Rol",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/rol/ADMIN",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "rol", "ADMIN"]
+            },
+            "description": "Obtener usuarios filtrados por rol"
+          },
+          "response": []
+        },
+        {
+          "name": "Asignar Módulo a Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2/modulos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2", "modulos", "1"]
+            },
+            "description": "Asignar un módulo a un usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Quitar Módulo de Usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/2/modulos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "2", "modulos", "1"]
+            },
+            "description": "Quitar un módulo de un usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Módulos de Usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1/modulos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "1", "modulos"]
+            },
+            "description": "Obtener listado de módulos asignados a un usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Validar Permiso de Usuario a Módulo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1/permiso/Usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "1", "permiso", "Usuarios"]
+            },
+            "description": "Validar si un usuario tiene permiso para acceder a un módulo específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "description": "Endpoints para gestión de roles",
+      "item": [
+        {
+          "name": "Listar Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles"]
+            },
+            "description": "Obtener listado de todos los roles"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Rol por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "1"]
+            },
+            "description": "Obtener detalles de un rol específico por ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"PROFESOR\",\n    \"descripcion\": \"Rol para profesores\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles"]
+            },
+            "description": "Crear un nuevo rol en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Modificar Rol",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"PROFESOR\",\n    \"descripcion\": \"Rol para profesores del centro\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "3"]
+            },
+            "description": "Modificar un rol existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Rol",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "3"]
+            },
+            "description": "Eliminar un rol del sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Rol por Nombre",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/nombre/ADMIN",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "nombre", "ADMIN"]
+            },
+            "description": "Obtener un rol por su nombre exacto"
+          },
+          "response": []
+        },
+        {
+          "name": "Asignar Módulo a Rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/2/modulos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "2", "modulos", "1"]
+            },
+            "description": "Asignar un módulo a un rol"
+          },
+          "response": []
+        },
+        {
+          "name": "Quitar Módulo de Rol",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/2/modulos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "roles", "2", "modulos", "1"]
+            },
+            "description": "Quitar un módulo de un rol"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Módulos",
+      "description": "Endpoints para gestión de módulos",
+      "item": [
+        {
+          "name": "Listar Módulos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos"]
+            },
+            "description": "Obtener listado de todos los módulos"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Módulo por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos", "1"]
+            },
+            "description": "Obtener detalles de un módulo específico por ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Módulo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones\",\n    \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos"]
+            },
+            "description": "Crear un nuevo módulo en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Modificar Módulo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Calificaciones\",\n    \"descripcion\": \"Módulo para gestión de calificaciones y expedientes\",\n    \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos", "3"]
+            },
+            "description": "Modificar un módulo existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Módulo",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos", "3"]
+            },
+            "description": "Eliminar un módulo del sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Módulo por Nombre",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos/nombre/Usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos", "nombre", "Usuarios"]
+            },
+            "description": "Obtener un módulo por su nombre exacto"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Módulos por Rol",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/modulos/rol/ADMIN",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "modulos", "rol", "ADMIN"]
+            },
+            "description": "Obtener módulos filtrados por rol"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8084"
+    },
+    {
+      "key": "token",
+      "value": "YOUR_JWT_TOKEN"
+    }
+  ]
+}

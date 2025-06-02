@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración del Sistema - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/tables.css}">
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+
+    <style>
+        .config-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .config-title {
+            font-size: 1.5rem;
+            color: #586BE5;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-switch {
+            display: flex;
+            align-items: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .btn-primary {
+            background-color: #586BE5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #4559d1;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .flex-col {
+            flex: 1;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        @media (max-width: 768px) {
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú lateral -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header('Configuración del Sistema')"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="dashboard-content">
+                <div id="alertSuccess" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Configuración guardada correctamente.
+                </div>
+
+                <div class="flex-row">
+                    <!-- Columna izquierda: Configuración general -->
+                    <div class="flex-col">
+                        <div class="config-card">
+                            <h2 class="config-title">Configuración General</h2>
+                            <form id="configForm">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre del Centro</label>
+                                    <input type="text" id="nombreCentro" class="form-control" value="IES Torre de los Guzmanes">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Email del Administrador</label>
+                                    <input type="email" id="emailAdmin" class="form-control" value="admin@guzpasen.edu">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Año Académico</label>
+                                    <select id="anioAcademico" class="form-control">
+                                        <option value="2024/2025" selected>2024/2025</option>
+                                        <option value="2025/2026">2025/2026</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-switch">
+                                        <label class="switch">
+                                            <input type="checkbox" id="modoMantenimiento">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <label for="modoMantenimiento">Activar modo mantenimiento</label>
+                                    </div>
+                                </div>
+
+                                <div style="text-align: center;">
+                                    <button type="button" id="btnGuardarConfig" class="btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config-card">
+                            <h2 class="config-title">Copia de Seguridad</h2>
+                            <div class="form-group">
+                                <label class="form-label">Última copia de seguridad</label>
+                                <input type="text" class="form-control" value="2025-06-01 08:30:45" readonly>
+                            </div>
+
+                            <div style="text-align: center;">
+                                <button type="button" id="btnCrearBackup" class="btn-primary">
+                                    <i class="fas fa-download"></i> Crear Copia de Seguridad
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha: Opciones avanzadas -->
+                    <div class="flex-col">
+                        <div class="config-card">
+                            <h2 class="config-title">Opciones Avanzadas</h2>
+                            <div class="form-group">
+                                <label class="form-label">Límite de intentos de login</label>
+                                <input type="number" id="maxIntentos" class="form-control" value="3" min="1" max="10">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tiempo de sesión (minutos)</label>
+                                <input type="number" id="tiempoSesion" class="form-control" value="30" min="5" max="120">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="debugMode" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="debugMode">Modo depuración</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="logEnabled" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="logEnabled">Registro de actividad</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-card">
+                            <h2 class="config-title">Notificaciones</h2>
+                            <div class="form-group">
+                                <div class="form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="emailNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="emailNotif">Notificaciones por email</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="smsNotif">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="smsNotif">Notificaciones por SMS</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="pushNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="pushNotif">Notificaciones push</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Servidor SMTP</label>
+                                <input type="text" id="smtpServer" class="form-control" value="smtp.guzpasen.edu">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event listener para el botón de guardar configuración
+            document.getElementById('btnGuardarConfig').addEventListener('click', function() {
+                guardarConfiguracion();
+            });
+
+            // Event listener para el botón de crear backup
+            document.getElementById('btnCrearBackup').addEventListener('click', function() {
+                crearBackup();
+            });
+
+            // Inicializar formulario desde localStorage si existe
+            cargarConfiguracion();
+        });
+
+        function guardarConfiguracion() {
+            // Obtener valores del formulario
+            const config = {
+                nombreCentro: document.getElementById('nombreCentro').value,
+                emailAdmin: document.getElementById('emailAdmin').value,
+                anioAcademico: document.getElementById('anioAcademico').value,
+                modoMantenimiento: document.getElementById('modoMantenimiento').checked,
+                maxIntentos: document.getElementById('maxIntentos').value,
+                tiempoSesion: document.getElementById('tiempoSesion').value,
+                debugMode: document.getElementById('debugMode').checked,
+                logEnabled: document.getElementById('logEnabled').checked,
+                emailNotif: document.getElementById('emailNotif').checked,
+                smsNotif: document.getElementById('smsNotif').checked,
+                pushNotif: document.getElementById('pushNotif').checked,
+                smtpServer: document.getElementById('smtpServer').value
+            };
+
+            // Validación básica
+            if (!config.nombreCentro.trim()) {
+                alert('El nombre del centro es obligatorio');
+                return;
+            }
+
+            if (!config.emailAdmin.trim() || !validarEmail(config.emailAdmin)) {
+                alert('Introduzca un email válido para el administrador');
+                return;
+            }
+
+            // En una aplicación real, esto sería una petición AJAX al servidor
+            // Simulamos guardado en localStorage para el ejemplo
+            localStorage.setItem('guzpasen_config', JSON.stringify(config));
+
+            // Mostrar mensaje de éxito
+            const alertSuccess = document.getElementById('alertSuccess');
+            alertSuccess.style.display = 'block';
+
+            // Ocultar mensaje después de 3 segundos
+            setTimeout(function() {
+                alertSuccess.style.display = 'none';
+            }, 3000);
+        }
+
+        function cargarConfiguracion() {
+            const configGuardada = localStorage.getItem('guzpasen_config');
+            if (configGuardada) {
+                const config = JSON.parse(configGuardada);
+
+                // Actualizar campos del formulario
+                document.getElementById('nombreCentro').value = config.nombreCentro || '';
+                document.getElementById('emailAdmin').value = config.emailAdmin || '';
+                document.getElementById('anioAcademico').value = config.anioAcademico || '2024/2025';
+                document.getElementById('modoMantenimiento').checked = config.modoMantenimiento || false;
+                document.getElementById('maxIntentos').value = config.maxIntentos || 3;
+                document.getElementById('tiempoSesion').value = config.tiempoSesion || 30;
+                document.getElementById('debugMode').checked = config.debugMode !== undefined ? config.debugMode : true;
+                document.getElementById('logEnabled').checked = config.logEnabled !== undefined ? config.logEnabled : true;
+                document.getElementById('emailNotif').checked = config.emailNotif !== undefined ? config.emailNotif : true;
+                document.getElementById('smsNotif').checked = config.smsNotif || false;
+                document.getElementById('pushNotif').checked = config.pushNotif !== undefined ? config.pushNotif : true;
+                document.getElementById('smtpServer').value = config.smtpServer || 'smtp.guzpasen.edu';
+            }
+        }
+
+        function crearBackup() {
+            // Simulación de creación de backup
+            const ahora = new Date();
+            const fechaFormateada = ahora.toISOString().replace('T', ' ').substring(0, 19);
+
+            alert(`Copia de seguridad creada con éxito: ${fechaFormateada}`);
+        }
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>

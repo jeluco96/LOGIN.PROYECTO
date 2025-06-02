@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <aside th:fragment="menu" class="side-menu">
+        <nav class="menu-items">
+            <!-- Cada elemento del menú tiene un tooltip (title) -->
+            <div class="menu-item">
+                <a th:href="@{/dashboard}" title="Panel principal del sistema">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a th:href="@{/usuarios}" title="Gestión de usuarios del sistema">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a th:href="@{/modulos}" title="Gestión de módulos del sistema">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <span>Módulos</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a th:href="@{/roles}" title="Gestión de roles del sistema">
+                    <i class="fas fa-user-tag"></i>
+                    <span>Roles</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a th:href="@{/configuracion}" title="Configuración del sistema">
+                    <i class="fas fa-cogs"></i>
+                    <span>Configuración</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+</body>
+</html>

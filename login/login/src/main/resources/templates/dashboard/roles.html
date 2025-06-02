@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Roles - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/tables.css}">
+    <link rel="stylesheet" th:href="@{/css/background-images.css}">
+    <link rel="stylesheet" th:href="@{/css/modal.css}">
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+
+    <style>
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background-color: #586BE5;
+            color: white;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+    <body class="section-roles">
+    <!-- Menú lateral -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header('Gestión de Roles')"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="table-container">
+                <div class="table-filters">
+                    <form id="searchForm" class="search-form" onsubmit="buscarRoles(); return false;">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar rol...">
+                        <button type="submit" class="search-button"><i class="fas fa-search"></i> Buscar</button>
+                    </form>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <button id="btnNuevoRol" class="search-button" style="background-color: #28a745;">
+                        <i class="fas fa-plus"></i> Nuevo Rol
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Módulos Asignados</th>
+                            <th class="actions-column">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesTableBody">
+                        <!-- Los datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar rol -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Confirmar eliminación</h2>
+                    <button class="close-button" onclick="cerrarModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar el rol?</p>
+                    <p>Esta acción no se puede deshacer y podría afectar a los usuarios asignados a este rol.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                    <button class="btn-accept" style="background-color: var(--color-danger);" onclick="eliminarRol()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver detalles del rol -->
+        <div id="viewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Detalles del Rol</h2>
+                    <button class="close-button" onclick="cerrarModalDetalles()">&times;</button>
+                </div>
+                <div class="modal-body" id="rolDetalles">
+                    <!-- Contenido dinámico -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="cerrarModalDetalles()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
+    </main>
+
+    <script>
+        // Datos de ejemplo de roles (simulando datos de la base de datos)
+        const roles = [
+            { 
+                id: 1, 
+                nombre: "ADMINISTRADOR", 
+                descripcion: "Control total del sistema", 
+                modulos: [
+                    "Usuarios", "Módulos", "Roles", "Configuración", "Asistencia", 
+                    "Incidencias", "Reportes", "Notificaciones", "Backups"
+                ]
+            },
+            { 
+                id: 2, 
+                nombre: "PROFESOR", 
+                descripcion: "Gestión de clases y notas",
+                modulos: [
+                    "Asistencia", "Calificaciones", "Incidencias", "Notificaciones"
+                ]
+            },
+            { 
+                id: 3, 
+                nombre: "GESTOR_INCIDENCIAS", 
+                descripcion: "Gestión y seguimiento de incidencias técnicas",
+                modulos: [
+                    "Incidencias", "Reportes", "Notificaciones"
+                ]
+            },
+            { 
+                id: 4, 
+                nombre: "TECNICO", 
+                descripcion: "Mantenimiento técnico del sistema",
+                modulos: [
+                    "Incidencias", "Configuración", "Backups"
+                ]
+            }
+        ];
+
+        let rolIdAEliminar = null;
+
+        // Cargar datos al iniciar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarRoles();
+
+            // Event listener para buscar roles
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                buscarRoles();
+            });
+
+            // Event listener para botón nuevo rol
+            document.getElementById('btnNuevoRol').addEventListener('click', function() {
+                alert('Funcionalidad de crear nuevo rol');
+                // Aquí iría la lógica para abrir un formulario de creación
+            });
+        });
+
+        function buscarRoles() {
+            const busqueda = document.getElementById('searchInput').value.toLowerCase();
+
+            const rolesFiltrados = roles.filter(rol => 
+                rol.nombre.toLowerCase().includes(busqueda) ||
+                rol.descripcion.toLowerCase().includes(busqueda)
+            );
+
+            cargarRolesEnTabla(rolesFiltrados);
+        }
+
+        function cargarRoles() {
+            cargarRolesEnTabla(roles);
+        }
+
+        function cargarRolesEnTabla(rolesList) {
+            const tbody = document.getElementById('rolesTableBody');
+            tbody.innerHTML = '';
+
+            rolesList.forEach(rol => {
+                const tr = document.createElement('tr');
+
+                // Crear celda para módulos con badges
+                const modulosHTML = rol.modulos.map(m => `<span class="badge">${m}</span>`).join(' ');
+
+                tr.innerHTML = `
+                    <td>${rol.id}</td>
+                    <td>${rol.nombre}</td>
+                    <td>${rol.descripcion}</td>
+                    <td>${modulosHTML}</td>
+                    <td class="actions-column">
+                        <button class="action-button view" title="Ver detalles" onclick="verRol(${rol.id})"><i class="fas fa-eye"></i></button>
+                        <button class="action-button edit" title="Editar rol" onclick="editarRol(${rol.id})"><i class="fas fa-edit"></i></button>
+                        ${rol.nombre !== 'ADMINISTRADOR' ? `<button class="action-button delete" title="Eliminar rol" onclick="confirmarEliminar(${rol.id})"><i class="fas fa-trash-alt"></i></button>` : ''}
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function verRol(id) {
+            const rol = roles.find(r => r.id === id);
+            const detallesDiv = document.getElementById('rolDetalles');
+
+            // Generar HTML para los detalles
+            const modulosHTML = rol.modulos.map(m => `<span class="badge">${m}</span>`).join(' ');
+
+            detallesDiv.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong>ID:</strong> ${rol.id}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Nombre:</strong> ${rol.nombre}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Descripción:</strong> ${rol.descripcion}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Módulos asignados:</strong><br>
+                    <div style="margin-top: 5px;">${modulosHTML}</div>
+                </div>
+                <div>
+                    <strong>Usuarios con este rol:</strong> ${rol.nombre === 'ADMINISTRADOR' ? '1' : 
+                                               rol.nombre === 'PROFESOR' ? '3' : 
+                                               rol.nombre === 'GESTOR_INCIDENCIAS' ? '1' : '1'}
+                </div>
+            `;
+
+            document.getElementById('viewModal').style.display = 'block';
+        }
+
+        function editarRol(id) {
+            const rol = roles.find(r => r.id === id);
+            alert(`Editar rol: ${rol.nombre}\nEstá funcionalidad permitiría editar la descripción y los módulos asociados.`);
+            // Aquí iría la lógica para abrir un formulario de edición
+        }
+
+        function confirmarEliminar(id) {
+            rolIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function cerrarModalDetalles() {
+            document.getElementById('viewModal').style.display = 'none';
+        }
+
+        function eliminarRol() {
+            const rol = roles.find(r => r.id === rolIdAEliminar);
+            alert(`Eliminando rol: ${rol.nombre}`);
+            cerrarModal();
+
+            // En una aplicación real, habría que hacer una petición al servidor
+            // y luego actualizar la interfaz si la operación fue exitosa
+        }
+
+        // Cerrar los modales si se hace clic fuera de ellos
+        window.onclick = function(event) {
+            const deleteModal = document.getElementById('deleteModal');
+            const viewModal = document.getElementById('viewModal');
+
+            if (event.target == deleteModal) {
+                cerrarModal();
+            }
+
+            if (event.target == viewModal) {
+                cerrarModalDetalles();
+            }
+        };
+    </script>
+</body>
+</html>

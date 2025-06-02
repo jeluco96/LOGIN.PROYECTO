@@ -1,0 +1,93 @@
+@startuml Modelo Entidad-Relación GUZPASEN
+
+!theme plain
+
+skinparam linetype ortho
+skinparam backgroundColor white
+skinparam roundcorner 15
+skinparam class {
+  BackgroundColor LightSkyBlue
+  ArrowColor Black
+  BorderColor Navy
+}
+
+' Definición de entidades
+entity "Usuario" as usuario {
+  * id_usuario : Long <<PK>>
+  --
+  * nombre : String
+  * apellidos : String
+  * email : String <<unique>>
+  * clave : String
+  activo : Boolean = true
+  * rol_id : Long <<FK>>
+  usuario_movil : Boolean = false
+  grupo : String
+}
+
+entity "Rol" as rol {
+  * id_rol : Long <<PK>>
+  --
+  * nombre : String <<unique>>
+  descripcion : String
+}
+
+entity "Modulo" as modulo {
+  * id_modulo : Long <<PK>>
+  --
+  * nombre : String <<unique>>
+  descripcion : String
+  activo : Boolean = true
+}
+
+entity "RolModulo" as rolmodulo {
+  * id : Long <<PK>>
+  --
+  * rol_id : Long <<FK>>
+  * modulo_id : Long <<FK>>
+}
+
+entity "UsuarioModulo" as usuariomodulo {
+  * usuario_id : Long <<FK>>
+  * modulo_id : Long <<FK>>
+}
+
+entity "UsuarioRol" as usuariorol {
+  * usuario_id : Long <<FK>>
+  * rol_id : Long <<FK>>
+}
+
+' Relaciones
+usuario "1" -- "*" rol : tiene como rol principal >
+usuario "*" -- "*" rol : tiene roles adicionales >
+usuario "*" -- "*" modulo : tiene acceso directo >
+
+rol "1" -- "*" rolmodulo : < contiene
+modulo "1" -- "*" rolmodulo : < asignado a
+
+' Notas explicativas
+note bottom of usuario
+  - Un usuario tiene un rol principal obligatorio
+  - Puede tener múltiples roles adicionales
+  - Puede tener acceso directo a módulos específicos
+  - El campo activo determina si puede acceder al sistema
+end note
+
+note bottom of rol
+  - Define perfiles como ADMINISTRADOR, PROFESOR, etc.
+  - Cada rol tiene acceso a un conjunto de módulos
+  - El rol ADMINISTRADOR tiene acceso a todos los módulos
+end note
+
+note bottom of modulo
+  - Representa una funcionalidad o área del sistema
+  - Puede estar activo o inactivo
+  - Se asigna a roles y/o directamente a usuarios
+end note
+
+note bottom of rolmodulo
+  - Tabla de unión que relaciona roles con módulos
+  - Define qué módulos están disponibles para cada rol
+end note
+
+@enduml

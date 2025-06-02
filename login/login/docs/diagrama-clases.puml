@@ -1,0 +1,80 @@
+@startuml Diagrama de Clases GUZPASEN
+
+!theme plain
+
+skinparam backgroundColor white
+skinparam roundcorner 15
+skinparam class {
+  BackgroundColor LightSkyBlue
+  ArrowColor Black
+  BorderColor Navy
+}
+
+' Clases del modelo
+class Usuario {
+  - id: Long
+  - nombre: String
+  - apellidos: String
+  - email: String
+  - clave: String
+  - activo: Boolean
+  - usuarioMovil: Boolean
+  - grupo: String
+  + tieneAccesoAModulo(nombreModulo: String): boolean
+  + esAdministrador(): boolean
+  + esProfesor(): boolean
+  + esTecnico(): boolean
+  + esGestorIncidencias(): boolean
+  + agregarModulo(modulo: Modulo): void
+  + quitarModulo(modulo: Modulo): boolean
+  + activar(): void
+  + desactivar(): void
+  + cambiarClave(nuevaClave: String): void
+}
+
+class Rol {
+  - id: Long
+  - nombre: String
+  - descripcion: String
+  + tieneAccesoAModulo(nombreModulo: String): boolean
+  + asignarModulo(modulo: Modulo): RolModulo
+  + quitarModulo(modulo: Modulo): boolean
+  + esAdministrador(): boolean
+  + esProfesor(): boolean
+  + esTecnico(): boolean
+  + esGestorIncidencias(): boolean
+}
+
+class Modulo {
+  - id: Long
+  - nombre: String
+  - descripcion: String
+  - activo: Boolean
+  + asignarAUsuario(usuario: Usuario): boolean
+  + quitarDeUsuario(usuario: Usuario): boolean
+  + setActivo(activo: Boolean): void
+  + getRoles(): String
+}
+
+class RolModulo {
+  - id: Long
+}
+
+class "Rol.TipoRol" as TipoRol {
+  + {static} ADMINISTRADOR: String
+  + {static} PROFESOR: String
+  + {static} GESTOR_INCIDENCIAS: String
+  + {static} TECNICO: String
+}
+
+' Relaciones
+Usuario "*" --o "1" Rol : rol principal
+Usuario "*" --o "*" Rol : roles adicionales
+Usuario "*" --o "*" Modulo : acceso directo
+
+Rol "1" --* "*" RolModulo
+Modulo "1" --* "*" RolModulo
+
+Rol ..> TipoRol : usa
+
+@enduml

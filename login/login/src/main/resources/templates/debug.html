@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODO DEPURACIÓN - GUZPASEN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffc107;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 5px solid #17a2b8;
+        }
+        .box {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #dc3545;
+        }
+        h2 {
+            color: #6c757d;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .btn:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="warning">
+        <h1>⚠️ MODO DEPURACIÓN ACTIVADO</h1>
+        <p><strong>¡ATENCIÓN!</strong> Esta página y configuración son solo para fines de desarrollo y pruebas.</p>
+        <p>La seguridad está completamente desactivada y se está utilizando un usuario de prueba automático.</p>
+        <p>NO USAR EN PRODUCCIÓN.</p>
+    </div>
+
+    <div class="box">
+        <h2>Navegación rápida</h2>
+        <a href="/dashboard" class="btn">Dashboard</a>
+        <a href="/usuarios" class="btn">Usuarios</a>
+        <a href="/roles" class="btn">Roles</a>
+        <a href="/modulos" class="btn">Módulos</a>
+        <a href="/configuracion" class="btn">Configuración</a>
+    </div>
+
+    <div class="info">
+        <h2>Información de desarrollo</h2>
+        <p>Se ha configurado un usuario administrador de prueba automáticamente:</p>
+        <ul>
+            <li><strong>Email:</strong> admin@guzpasen.edu</li>
+            <li><strong>Rol:</strong> ADMINISTRADOR</li>
+        </ul>
+        <p>Puedes navegar por toda la aplicación sin restricciones de seguridad.</p>
+    </div>
+</body>
+</html>

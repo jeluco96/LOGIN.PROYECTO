@@ -1,0 +1,200 @@
+/* Estilos responsivos */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    :root {
+        --menu-width: 25%;
+        --font-size-button: 24px;
+    }
+
+    .dashboard-button {
+        width: 280px;
+        height: 120px;
+        margin: 0 40px;
+    }
+
+    .button-row {
+        margin-bottom: 80px;
+    }
+
+    .dashboard-button i {
+        font-size: 32px;
+    }
+}
+
+/* Móviles grandes */
+@media (max-width: 768px) {
+    :root {
+        --menu-width: 0;
+        --font-size-button: 20px;
+        --font-size-h1: 24px;
+    }
+
+    .side-menu {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 80%;
+    }
+
+    .side-menu.open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 200;
+        background-color: var(--color-secondary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .dashboard-button {
+        width: 100%;
+        max-width: 250px;
+        height: 100px;
+        margin: 0 20px;
+    }
+
+    .button-row {
+        margin-bottom: 50px;
+    }
+
+    .section-title {
+        display: none;
+    }
+
+    .user-area {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .user-name {
+        display: none;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .button-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-button {
+        margin: 15px 0;
+    }
+/* Estilos responsive para GUZPASEN */
+
+/* Tabletas */
+@media (max-width: 1024px) {
+    .side-menu {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+    }
+
+    .button-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-button {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .side-menu {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .menu-items {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .menu-item {
+        margin-right: 10px;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    .menu-item span {
+        display: none;
+    }
+
+    .menu-item i {
+        margin-right: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .section-title {
+        order: -1;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .user-area {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .dashboard-button {
+        padding: 20px;
+    }
+
+    .dashboard-button i {
+        font-size: 2rem;
+    }
+}
+    .nav-buttons {
+        margin-right: 10px;
+    }
+
+    .back-button, .home-button {
+        padding: 8px 12px;
+    }
+
+    .user-role {
+        display: none;
+    }
+
+    .logout-button span {
+        display: none;
+    }
+
+    .logout-button i {
+        margin-right: 0;
+    }
+}

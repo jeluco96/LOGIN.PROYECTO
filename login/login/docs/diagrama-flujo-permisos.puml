@@ -1,0 +1,39 @@
+@startuml Flujo de Verificación de Permisos
+
+!theme plain
+
+skinparam backgroundColor white
+skinparam roundcorner 15
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor LightSkyBlue
+
+start
+
+:Usuario intenta acceder a un módulo;
+
+if (¿Usuario está activo?) then (sí)
+  if (¿Usuario es ADMINISTRADOR?) then (sí)
+    :Acceso concedido;
+  else (no)
+    if (¿Rol principal tiene acceso al módulo?) then (sí)
+      :Acceso concedido;
+    else (no)
+      if (¿Usuario tiene acceso directo al módulo?) then (sí)
+        :Acceso concedido;
+      else (no)
+        if (¿Algún rol adicional tiene acceso?) then (sí)
+          :Acceso concedido;
+        else (no)
+          :Acceso denegado;
+        endif
+      endif
+    endif
+  endif
+else (no)
+  :Acceso denegado;
+endif
+
+stop
+
+@enduml

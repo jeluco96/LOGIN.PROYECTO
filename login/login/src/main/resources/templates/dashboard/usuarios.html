@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/tables.css}">
+    <link rel="stylesheet" th:href="@{/css/background-images.css}">
+    <link rel="stylesheet" th:href="@{/css/modal.css}">
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-button.cancel {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        .modal-button.confirm {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+    <body class="section-usuarios">
+    <!-- Menú lateral -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header('Gestión de Usuarios')"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="table-container">
+                <div class="table-filters">
+                    <div class="filters-row">
+                        <select id="filterRol" class="filter-select">
+                            <option value="">Todos los roles</option>
+                            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                            <option value="PROFESOR">PROFESOR</option>
+                            <option value="GESTOR_INCIDENCIAS">GESTOR INCIDENCIAS</option>
+                            <option value="TECNICO">TÉCNICO</option>
+                        </select>
+
+                        <select id="filterEstado" class="filter-select">
+                            <option value="">Todos los estados</option>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <form id="searchForm" class="search-form" onsubmit="aplicarFiltros(); return false;">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, apellidos o email...">
+                        <button type="submit" class="search-button"><i class="fas fa-search"></i> Buscar</button>
+                    </form>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <button id="btnNuevoUsuario" class="search-button" style="background-color: #28a745;">
+                        <i class="fas fa-plus"></i> Nuevo Usuario
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th class="actions-column">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTableBody">
+                        <!-- Los datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+
+                <nav>
+                    <ul class="pagination">
+                        <li><a href="#" id="btnAnterior">Anterior</a></li>
+                        <li class="active"><a href="#" data-page="1">1</a></li>
+                        <li><a href="#" data-page="2">2</a></li>
+                        <li><a href="#" data-page="3">3</a></li>
+                        <li><a href="#" id="btnSiguiente">Siguiente</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar usuario -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Confirmar eliminación</h2>
+                    <button class="close-button" onclick="cerrarModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar al usuario?</p>
+                    <p>Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                    <button class="btn-accept" style="background-color: var(--color-danger);" onclick="eliminarUsuario()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
+    </main>
+
+    <script>
+        // Datos de ejemplo de usuarios (simulando datos de la base de datos)
+        const usuarios = [
+            { id: 1, nombre: "Administrador", apellidos: "Sistema", email: "admin@guzpasen.edu", rol: "ADMINISTRADOR", activo: true },
+            { id: 2, nombre: "María", apellidos: "López García", email: "maria.lopez@guzpasen.edu", rol: "PROFESOR", activo: true },
+            { id: 3, nombre: "Carlos", apellidos: "Rodríguez Martín", email: "carlos.rodriguez@guzpasen.edu", rol: "PROFESOR", activo: true },
+            { id: 4, nombre: "Juan", apellidos: "Pérez Torres", email: "juan.perez@guzpasen.edu", rol: "GESTOR_INCIDENCIAS", activo: true },
+            { id: 5, nombre: "Ana", apellidos: "González Ruiz", email: "ana.gonzalez@guzpasen.edu", rol: "TECNICO", activo: false },
+            { id: 6, nombre: "Luis", apellidos: "Sánchez Ortiz", email: "luis.sanchez@guzpasen.edu", rol: "PROFESOR", activo: true },
+            { id: 7, nombre: "Carmen", apellidos: "Martínez López", email: "carmen.martinez@guzpasen.edu", rol: "PROFESOR", activo: true }
+        ];
+
+        let usuarioIdAEliminar = null;
+        let paginaActual = 1;
+        const usuariosPorPagina = 5;
+
+        // Cargar datos al iniciar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarUsuarios();
+
+            // Event listeners para filtros
+            document.getElementById('filterRol').addEventListener('change', aplicarFiltros);
+            document.getElementById('filterEstado').addEventListener('change', aplicarFiltros);
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                aplicarFiltros();
+            });
+
+            // Event listeners para paginación
+            document.getElementById('btnAnterior').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (paginaActual > 1) {
+                    paginaActual--;
+                    cargarUsuarios();
+                }
+            });
+
+            document.getElementById('btnSiguiente').addEventListener('click', function(e) {
+                e.preventDefault();
+                const totalPaginas = Math.ceil(filtrarUsuarios().length / usuariosPorPagina);
+                if (paginaActual < totalPaginas) {
+                    paginaActual++;
+                    cargarUsuarios();
+                }
+            });
+
+            // Event listener para botón nuevo usuario
+            document.getElementById('btnNuevoUsuario').addEventListener('click', function() {
+                alert('Funcionalidad de crear nuevo usuario');
+                // Aquí iría la lógica para abrir un formulario de creación
+            });
+        });
+
+        function filtrarUsuarios() {
+            const busqueda = document.getElementById('searchInput').value.toLowerCase();
+            const rol = document.getElementById('filterRol').value;
+            const estado = document.getElementById('filterEstado').value;
+
+            return usuarios.filter(usuario => {
+                const coincideBusqueda = busqueda === '' || 
+                    usuario.nombre.toLowerCase().includes(busqueda) ||
+                    usuario.apellidos.toLowerCase().includes(busqueda) ||
+                    usuario.email.toLowerCase().includes(busqueda);
+
+                const coincideRol = rol === '' || usuario.rol === rol;
+
+                const coincideEstado = estado === '' || 
+                    (estado === 'true' && usuario.activo) || 
+                    (estado === 'false' && !usuario.activo);
+
+                return coincideBusqueda && coincideRol && coincideEstado;
+            });
+        }
+
+        function cargarUsuarios() {
+            const usuariosFiltrados = filtrarUsuarios();
+            const inicio = (paginaActual - 1) * usuariosPorPagina;
+            const fin = inicio + usuariosPorPagina;
+            const usuariosPagina = usuariosFiltrados.slice(inicio, fin);
+
+            const tbody = document.getElementById('usuariosTableBody');
+            tbody.innerHTML = '';
+
+            usuariosPagina.forEach(usuario => {
+                const tr = document.createElement('tr');
+
+                tr.innerHTML = `
+                    <td>${usuario.id}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.apellidos}</td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.rol}</td>
+                    <td>${usuario.activo ? 'Activo' : 'Inactivo'}</td>
+                    <td class="actions-column">
+                        <button class="action-button view" title="Ver detalles" onclick="verUsuario(${usuario.id})"><i class="fas fa-eye"></i></button>
+                        <button class="action-button edit" title="Editar usuario" onclick="editarUsuario(${usuario.id})"><i class="fas fa-edit"></i></button>
+                        <button class="action-button delete" title="Eliminar usuario" onclick="confirmarEliminar(${usuario.id})"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+
+            // Actualizar indicadores de paginación
+            actualizarPaginacion(usuariosFiltrados.length);
+        }
+
+        function actualizarPaginacion(totalUsuarios) {
+            const totalPaginas = Math.ceil(totalUsuarios / usuariosPorPagina);
+            const paginacion = document.querySelector('.pagination');
+
+            // Habilitar/deshabilitar botones de navegación
+            document.getElementById('btnAnterior').parentElement.classList.toggle('disabled', paginaActual <= 1);
+            document.getElementById('btnSiguiente').parentElement.classList.toggle('disabled', paginaActual >= totalPaginas);
+
+            // Actualizar números de página
+            const numerosItems = Array.from(paginacion.querySelectorAll('li:not(:first-child):not(:last-child)'));
+
+            for (let i = 0; i < numerosItems.length; i++) {
+                const li = numerosItems[i];
+                const numPagina = paginaActual - 1 + i;
+
+                if (numPagina <= 0 || numPagina > totalPaginas) {
+                    li.style.display = 'none';
+                } else {
+                    li.style.display = '';
+                    const a = li.querySelector('a');
+                    a.textContent = numPagina;
+                    a.dataset.page = numPagina;
+                    li.classList.toggle('active', numPagina === paginaActual);
+                }
+            }
+        }
+
+        function aplicarFiltros() {
+            paginaActual = 1; // Resetear a primera página cuando se aplican filtros
+            cargarUsuarios();
+        }
+
+        function verUsuario(id) {
+            const usuario = usuarios.find(u => u.id === id);
+            alert(`Detalles del usuario ${usuario.nombre} ${usuario.apellidos}\nEmail: ${usuario.email}\nRol: ${usuario.rol}\nEstado: ${usuario.activo ? 'Activo' : 'Inactivo'}`);
+        }
+
+        function editarUsuario(id) {
+            const usuario = usuarios.find(u => u.id === id);
+            alert(`Editar usuario: ${usuario.nombre} ${usuario.apellidos}`);
+            // Aquí iría la lógica para abrir un formulario de edición
+        }
+
+        function confirmarEliminar(id) {
+            usuarioIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function eliminarUsuario() {
+            // Aquí iría la lógica para eliminar el usuario
+            alert('Eliminando usuario con ID: ' + usuarioIdAEliminar);
+            cerrarModal();
+        }
+
+        // Cerrar el modal si se hace clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        };
+    </script>
+</body>
+</html>

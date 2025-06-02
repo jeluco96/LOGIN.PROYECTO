@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/config.css}">
+</head>
+<body>
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/menu :: menu}"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="~{fragments/header :: header('Configuración del Sistema')}"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="configuracion-content">
+            <div class="section-header">
+                <h2>Configuración del Sistema</h2>
+                <button class="action-button" id="guardarConfig" title="Guardar cambios">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </div>
+
+            <div class="config-container">
+                <div class="config-section">
+                    <h3>Configuración General</h3>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label for="nombreSistema">Nombre del Sistema:</label>
+                            <input type="text" id="nombreSistema" value="GUZPASEN" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcionSistema">Descripción:</label>
+                            <textarea id="descripcionSistema" class="form-control">Sistema de Gestión de IES Torre de los Guzmanes</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailContacto">Email de Contacto:</label>
+                            <input type="email" id="emailContacto" value="contacto@iestorredelosguzmanes.edu" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Apariencia</h3>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label>Tema de Color:</label>
+                            <div class="color-options">
+                                <div class="color-option active" data-theme="default">
+                                    <span class="color-preview" style="background-color: #586BE5;"></span>
+                                    <span class="color-name">Predeterminado</span>
+                                </div>
+                                <div class="color-option" data-theme="green">
+                                    <span class="color-preview" style="background-color: #28A745;"></span>
+                                    <span class="color-name">Verde</span>
+                                </div>
+                                <div class="color-option" data-theme="red">
+                                    <span class="color-preview" style="background-color: #DC3545;"></span>
+                                    <span class="color-name">Rojo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logoUrl">URL del Logo:</label>
+                            <input type="text" id="logoUrl" value="/images/logo.png" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Seguridad</h3>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label for="tiempoSesion">Tiempo de Sesión (minutos):</label>
+                            <input type="number" id="tiempoSesion" value="30" min="5" max="120" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="intentosLogin">Intentos máximos de login:</label>
+                            <input type="number" id="intentosLogin" value="3" min="1" max="10" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="dobleAutenticacion" checked>
+                                <label for="dobleAutenticacion">Habilitar doble autenticación</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejar clic en opciones de color
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Quitar clase active de todos
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    // Añadir clase active al seleccionado
+                    this.classList.add('active');
+                });
+            });
+
+            // Manejar clic en botón guardar
+            document.getElementById('guardarConfig').addEventListener('click', function() {
+                alert('Configuración guardada correctamente');
+            });
+        });
+    </script>
+</body>
+</html>

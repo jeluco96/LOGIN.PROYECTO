@@ -1,0 +1,48 @@
+/* Estilos para imágenes de fondo por sección */
+
+/* Usar imágenes de fondo, con transparencia adecuada para que no interfieran visualmente
+   y relacionadas con la sección de la app que se está usando */
+
+/* Estilo base para el fondo de las secciones */
+.content-area {
+    position: relative;
+}
+
+.content-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.3; /* Aumentada para mejor visibilidad */
+    z-index: -1;
+}
+
+/* Fondo para la sección de Usuarios */
+.section-usuarios .content-area::before {
+    background-image: url('../images/bg-images/usuarios-bg.jpg');
+}
+
+/* Fondo para la sección de Módulos */
+.section-modulos .content-area::before {
+    background-image: url('../images/bg-images/modulos-bg.jpg');
+}
+
+/* Fondo para la sección de Roles */
+.section-roles .content-area::before {
+    background-image: url('../images/bg-images/roles-bg.jpg');
+}
+
+/* Fondo para la sección de Configuración */
+.section-configuracion .content-area::before {
+    background-image: url('../images/bg-images/config-bg.jpg');
+}
+
+/* Fondo para el Dashboard */
+.section-dashboard .content-area::before {
+    background-image: url('../images/bg-images/dashboard-bg.jpg');
+}

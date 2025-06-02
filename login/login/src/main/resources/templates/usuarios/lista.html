@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Usuarios - GUZPASEN</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: body(~{::div#content}, 'Gestión de Usuarios', '/images/bg-images/usuarios-bg.jpg')}">
+        <div id="content" class="usuarios-content">
+            <div class="section-header">
+                <h2>Listado de Usuarios</h2>
+                <a th:href="@{/usuarios/nuevo}" class="action-button create-button" title="Crear nuevo usuario">
+                    <i class="fas fa-plus"></i> Nuevo Usuario
+                </a>
+            </div>
+
+            <div class="filter-container">
+                <input type="text" id="searchInput" placeholder="Buscar usuarios..." class="search-input">
+                <select id="filterRol" class="filter-select">
+                    <option value="">Todos los roles</option>
+                    <option value="ADMIN">Administrador</option>
+                    <option value="USUARIO">Usuario</option>
+                </select>
+                <button class="action-button" onclick="aplicarFiltros()" title="Aplicar filtros">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de ejemplo. Esto debería ser reemplazado con datos reales -->
+                        <tr>
+                            <td>1</td>
+                            <td>Juan</td>
+                            <td>Pérez Gómez</td>
+                            <td>juan.perez@email.com</td>
+                            <td>Administrador</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/usuarios/editar/1}" class="icon-button edit" title="Editar usuario">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/usuarios/ver/1}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(1)" title="Eliminar usuario">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>María</td>
+                            <td>López Sánchez</td>
+                            <td>maria.lopez@email.com</td>
+                            <td>Usuario</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/usuarios/editar/2}" class="icon-button edit" title="Editar usuario">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/usuarios/ver/2}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(2)" title="Eliminar usuario">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Carlos</td>
+                            <td>Rodríguez Martínez</td>
+                            <td>carlos.rodriguez@email.com</td>
+                            <td>Usuario</td>
+                            <td><span class="status-badge inactive">Inactivo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/usuarios/editar/3}" class="icon-button edit" title="Editar usuario">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/usuarios/ver/3}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(3)" title="Eliminar usuario">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button class="pagination-button" disabled title="Página anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="page-info">Página 1 de 1</span>
+                <button class="pagination-button" disabled title="Página siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar eliminación</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button cancel-button" onclick="cerrarModal()" title="Cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="action-button delete-button" onclick="eliminarUsuario()" title="Confirmar eliminación">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuarioIdAEliminar = null;
+
+        function confirmarEliminar(id) {
+            usuarioIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function eliminarUsuario() {
+            // Aquí iría la lógica para eliminar el usuario
+            alert('Eliminando usuario con ID: ' + usuarioIdAEliminar);
+            cerrarModal();
+        }
+
+        function aplicarFiltros() {
+            const busqueda = document.getElementById('searchInput').value;
+            const rol = document.getElementById('filterRol').value;
+            alert(`Filtrando por: "${busqueda}" y rol: "${rol || 'todos'}"`); 
+        }
+
+        // Cerrar el modal si se hace clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        }
+
+        // También cerrar con la X
+        document.querySelector('.close-modal').onclick = cerrarModal;
+    </script>
+</body>
+</html>

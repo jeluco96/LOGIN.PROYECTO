@@ -1,0 +1,18 @@
+# Configuración específica para JWT
+
+# Propiedades para JwtTokenProvider
+app:
+  jwt:
+    secret: secreto-super-seguro-para-firmar-tokens-jwt-cambiar-en-produccion
+    expiration-ms: 86400000  # 24 horas
+
+# Propiedades para JwtUtil
+jwt:
+  secret: ${app.jwt.secret}
+  expiration: ${app.jwt.expiration-ms}
+
+# Aumentar nivel de log para depuración de seguridad
+logging:
+  level:
+    com.dam.login.security: DEBUG
+    org.springframework.security: DEBUG

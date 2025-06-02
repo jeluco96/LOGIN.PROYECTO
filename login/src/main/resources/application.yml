@@ -1,0 +1,55 @@
+# Configuración general de la aplicación
+server:
+  port: 8084
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Configuración de seguridad JWT
+app:
+  jwt:
+    secret: clave-secreta-muy-larga-para-desarrollo-local-cambiar-en-produccion-123456789
+    expiration-ms: 86400000  # 24 horas
+
+# Configuración de logging para depuración
+logging:
+  level:
+    root: INFO
+    com.dam.login: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: INFO
+
+# Configuración de Spring
+spring:
+  profiles:
+    active: dev
+
+  # Configuración de base de datos
+  datasource:
+    url: jdbc:mysql://localhost:3306/guzpasen_db
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Configuración de JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Thymeleaf (desactivar caché en desarrollo)
+  thymeleaf:
+    cache: false
+
+# Habilitar puntos de actuator para monitoreo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

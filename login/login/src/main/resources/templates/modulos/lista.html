@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Módulos - GUZPASEN</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: body(~{::div#content}, 'Gestión de Módulos', '/images/bg-images/modulos-bg.jpg')}">
+        <div id="content" class="modulos-content">
+            <div class="section-header">
+                <h2>Listado de Módulos</h2>
+                <a th:href="@{/modulos/nuevo}" class="action-button create-button" title="Crear nuevo módulo">
+                    <i class="fas fa-plus"></i> Nuevo Módulo
+                </a>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Ruta</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de ejemplo. Esto debería ser reemplazado con datos reales -->
+                        <tr>
+                            <td>1</td>
+                            <td>Usuarios</td>
+                            <td>Gestión de usuarios del sistema</td>
+                            <td>/usuarios</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/modulos/editar/1}" class="icon-button edit" title="Editar módulo">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/modulos/ver/1}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(1)" title="Eliminar módulo">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Roles</td>
+                            <td>Gestión de roles y permisos</td>
+                            <td>/roles</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/modulos/editar/2}" class="icon-button edit" title="Editar módulo">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/modulos/ver/2}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(2)" title="Eliminar módulo">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Configuración</td>
+                            <td>Configuración general del sistema</td>
+                            <td>/configuracion</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions-cell">
+                                <a th:href="@{/modulos/editar/3}" class="icon-button edit" title="Editar módulo">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/modulos/ver/3}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(3)" title="Eliminar módulo">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar eliminación</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este módulo? Esta acción no se puede deshacer.</p>
+                <p class="warning-text">Nota: Eliminar un módulo puede afectar a los usuarios que tienen acceso a él.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button cancel-button" onclick="cerrarModal()" title="Cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="action-button delete-button" onclick="eliminarModulo()" title="Confirmar eliminación">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let moduloIdAEliminar = null;
+
+        function confirmarEliminar(id) {
+            moduloIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function eliminarModulo() {
+            // Aquí iría la lógica para eliminar el módulo
+            alert('Eliminando módulo con ID: ' + moduloIdAEliminar);
+            cerrarModal();
+        }
+
+        // Cerrar el modal si se hace clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        }
+
+        // También cerrar con la X
+        document.querySelector('.close-modal').onclick = cerrarModal;
+    </script>
+</body>
+</html>

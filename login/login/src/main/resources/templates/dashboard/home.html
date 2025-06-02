@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/tables.css}">
+    <link rel="stylesheet" th:href="@{/css/background-images.css}">
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+</head>
+    <body class="section-dashboard">
+    <!-- Menú lateral -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header('Panel Principal')"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="dashboard-content">
+                <div class="buttons-container">
+                    <!-- Primera fila de botones -->
+                    <div class="button-row">
+                        <!-- Botón 1 -->
+                        <a th:href="@{/usuarios}" class="dashboard-button" title="Gestionar usuarios del sistema">
+                            <i class="fas fa-users"></i>
+                            <span>Gestión de Usuarios</span>
+                        </a>
+
+                        <!-- Botón 2 -->
+                        <a th:href="@{/modulos}" class="dashboard-button" title="Administrar módulos del sistema">
+                            <i class="fas fa-puzzle-piece"></i>
+                            <span>Gestión de Módulos</span>
+                        </a>
+                    </div>
+
+                    <!-- Segunda fila de botones -->
+                    <div class="button-row">
+                        <!-- Botón 3 -->
+                        <a th:href="@{/roles}" class="dashboard-button" title="Configurar roles del sistema">
+                            <i class="fas fa-user-tag"></i>
+                            <span>Gestión de Roles</span>
+                        </a>
+
+                        <!-- Botón 4 -->
+                        <a th:href="@{/configuracion}" class="dashboard-button" title="Configurar el sistema">
+                            <i class="fas fa-cogs"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
+    </main>
+</body>
+</html>

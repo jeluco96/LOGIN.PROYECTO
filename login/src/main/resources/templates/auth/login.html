@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body class="login-page" th:style="'background-image: url(' + @{/images/bg-images/login-bg.jpg} + '); background-size: cover;'">
+    <div class="login-container">
+        <div class="login-header">
+            <a href="https://blogsaverroes.juntadeandalucia.es/iestorrredelosguzmanes/" target="_blank">
+                <img th:src="@{/images/logo.png}" alt="Logo IES Torre de los Guzmanes" class="login-logo">
+            </a>
+            <h1>GUZPASEN</h1>
+            <p>Sistema de Gestión</p>
+        </div>
+
+        <div class="login-form">
+            <form th:action="@{/auth/login-process}" method="post" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="clave">Contraseña:</label>
+                    <input type="password" id="clave" name="clave" required>
+                </div>
+
+                <div id="error-message" class="error-message" th:if="${param.error}">
+                    <p>Credenciales inválidas. Por favor, inténtalo de nuevo.</p>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="login-button">Iniciar Sesión</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            <p>&copy; 2025 IES Torre de los Guzmanes - GUZPASEN</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/api-client.js}"></script>
+    <script th:src="@{/js/debug-tools.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('error-message');
+
+            // Activar modo debug en localhost
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                apiClient.setDebugMode(true);
+                console.log('%c🔧 Modo debug activado', 'color: green; font-weight: bold');
+            }
+
+            // Si ya hay un token, validarlo antes de redireccionar
+            if (apiClient.isAuthenticated()) {
+                apiClient.debug('Token encontrado en localStorage, validando...');
+                apiClient.validateToken().then(isValid => {
+                    if (isValid) {
+                        apiClient.debug('Token válido, redireccionando al dashboard');
+                        window.location.href = '/dashboard';
+                    } else {
+                        apiClient.debug('Token inválido, eliminando de localStorage');
+                        localStorage.removeItem('jwt_token');
+                        localStorage.removeItem('user_info');
+                    }
+                }).catch(err => {
+                    apiClient.debug('Error al validar token:', err.message);
+                    localStorage.removeItem('jwt_token');
+                    localStorage.removeItem('user_info');
+                });
+            }
+
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const clave = document.getElementById('clave').value;
+
+                // Deshabilitar botón para evitar múltiples envíos
+                const submitButton = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+
+                try {
+                    // Intentar login con API
+                    const response = await apiClient.login(email, clave);
+                    apiClient.debug('Login exitoso:', response);
+
+                    // Si el login es exitoso, redirigir al dashboard
+                    window.location.href = '/dashboard';
+                } catch (error) {
+                    apiClient.debug('Error en login:', error);
+
+                    // Mostrar mensaje de error
+                    if (errorMessage) {
+                        errorMessage.innerHTML = `<p>${error.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.'}</p>`;
+                        errorMessage.style.display = 'block';
+                    }
+
+                    // Restaurar botón
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
+            });
+
+            // Añadir botón de debug en desarrollo
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const container = document.querySelector('.login-container');
+                const debugButton = document.createElement('button');
+                debugButton.className = 'debug-button';
+                debugButton.innerHTML = '🔧';
+                debugButton.title = 'Abrir herramientas de depuración';
+                debugButton.style.position = 'absolute';
+                debugButton.style.bottom = '10px';
+                debugButton.style.right = '10px';
+                debugButton.style.background = 'transparent';
+                debugButton.style.border = 'none';
+                debugButton.style.fontSize = '24px';
+                debugButton.style.cursor = 'pointer';
+                debugButton.style.zIndex = '1000';
+
+                debugButton.addEventListener('click', function() {
+                    const storedToken = localStorage.getItem('jwt_token');
+                    if (storedToken) {
+                        console.log('%c🔍 Token almacenado:', 'font-weight: bold');
+                        console.log(storedToken);
+                        debugTools.analyzeToken(storedToken).then(info => {
+                            console.log('%c📊 Análisis del token:', 'font-weight: bold');
+                            console.log(info);
+                        });
+                    } else {
+                        console.log('%c⚠️ No hay token almacenado', 'color: orange; font-weight: bold');
+                    }
+
+                    debugTools.getAuthInfo().then(info => {
+                        console.log('%c🔐 Información de autenticación:', 'font-weight: bold');
+                        console.log(info);
+                    });
+                });
+
+                container.appendChild(debugButton);
+            }
+        });
+    </script>
+</body>
+</html>

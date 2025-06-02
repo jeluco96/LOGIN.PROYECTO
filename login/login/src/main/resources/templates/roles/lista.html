@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Roles - GUZPASEN</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: body(~{::div#content}, 'Gestión de Roles', '/images/bg-images/roles-bg.jpg')}">
+        <div id="content" class="roles-content">
+            <div class="section-header">
+                <h2>Listado de Roles</h2>
+                <a th:href="@{/roles/nuevo}" class="action-button create-button" title="Crear nuevo rol">
+                    <i class="fas fa-plus"></i> Nuevo Rol
+                </a>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de ejemplo. Esto debería ser reemplazado con datos reales -->
+                        <tr>
+                            <td>1</td>
+                            <td>ADMIN</td>
+                            <td>Administrador del sistema con acceso completo</td>
+                            <td class="actions-cell">
+                                <a th:href="@{/roles/editar/1}" class="icon-button edit" title="Editar rol">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/roles/ver/1}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(1)" title="Eliminar rol">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>USUARIO</td>
+                            <td>Usuario estándar con acceso limitado</td>
+                            <td class="actions-cell">
+                                <a th:href="@{/roles/editar/2}" class="icon-button edit" title="Editar rol">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/roles/ver/2}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(2)" title="Eliminar rol">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>SUPERVISOR</td>
+                            <td>Supervisor con permisos de visualización y reportes</td>
+                            <td class="actions-cell">
+                                <a th:href="@{/roles/editar/3}" class="icon-button edit" title="Editar rol">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/roles/ver/3}" class="icon-button view" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="icon-button delete" onclick="confirmarEliminar(3)" title="Eliminar rol">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar eliminación</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este rol? Esta acción no se puede deshacer.</p>
+                <p class="warning-text">Nota: Eliminar un rol puede afectar a los usuarios que lo tienen asignado.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button cancel-button" onclick="cerrarModal()" title="Cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="action-button delete-button" onclick="eliminarRol()" title="Confirmar eliminación">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let rolIdAEliminar = null;
+
+        function confirmarEliminar(id) {
+            rolIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function eliminarRol() {
+            // Aquí iría la lógica para eliminar el rol
+            alert('Eliminando rol con ID: ' + rolIdAEliminar);
+            cerrarModal();
+        }
+
+        // Cerrar el modal si se hace clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        }
+
+        // También cerrar con la X
+        document.querySelector('.close-modal').onclick = cerrarModal;
+    </script>
+</body>
+</html>

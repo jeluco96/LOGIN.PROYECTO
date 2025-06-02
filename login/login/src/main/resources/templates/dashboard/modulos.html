@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Módulos - GUZPASEN</title>
+
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/tables.css}">
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-button.cancel {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        .modal-button.confirm {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background-color: #586BE5;
+            color: white;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú lateral -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header('Gestión de Módulos')"></div>
+
+        <!-- Contenido específico de la página -->
+        <div class="content-area">
+            <div class="table-container">
+                <div class="table-filters">
+                    <div class="filters-row">
+                        <select id="filterEstado" class="filter-select">
+                            <option value="">Todos los estados</option>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <form id="searchForm" class="search-form" onsubmit="buscarModulos(); return false;">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar módulo...">
+                        <button type="submit" class="search-button"><i class="fas fa-search"></i> Buscar</button>
+                    </form>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <button id="btnNuevoModulo" class="search-button" style="background-color: #28a745;">
+                        <i class="fas fa-plus"></i> Nuevo Módulo
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Roles con Acceso</th>
+                            <th>Estado</th>
+                            <th class="actions-column">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modulosTableBody">
+                        <!-- Los datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar módulo -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Confirmar eliminación</h2>
+                    <button class="close-button" onclick="cerrarModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar el módulo?</p>
+                    <p>Esta acción no se puede deshacer y podría afectar a los usuarios que tienen acceso a este módulo.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-button cancel" onclick="cerrarModal()">Cancelar</button>
+                    <button class="modal-button confirm" onclick="eliminarModulo()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver detalles del módulo -->
+        <div id="viewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Detalles del Módulo</h2>
+                    <button class="close-button" onclick="cerrarModalDetalles()">&times;</button>
+                </div>
+                <div class="modal-body" id="moduloDetalles">
+                    <!-- Contenido dinámico -->
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-button cancel" onclick="cerrarModalDetalles()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para editar módulo -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Editar Módulo</h2>
+                    <button class="close-button" onclick="cerrarModalEditar()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId">
+                        <div style="margin-bottom: 15px;">
+                            <label for="editNombre" style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre</label>
+                            <input type="text" id="editNombre" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label for="editDescripcion" style="display: block; margin-bottom: 5px; font-weight: bold;">Descripción</label>
+                            <textarea id="editDescripcion" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Estado</label>
+                            <label class="switch">
+                                <input type="checkbox" id="editActivo">
+                                <span class="slider"></span>
+                            </label>
+                            <span id="estadoTexto" style="margin-left: 10px;">Activo</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-button cancel" onclick="cerrarModalEditar()">Cancelar</button>
+                    <button class="modal-button confirm" style="background-color: #28a745;" onclick="guardarModulo()">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
+    </main>
+
+    <script>
+        // Datos de ejemplo de módulos (simulando datos de la base de datos)
+        const modulos = [
+            { 
+                id: 1, 
+                nombre: "Usuarios", 
+                descripcion: "Gestión de usuarios del sistema", 
+                activo: true,
+                roles: ["ADMINISTRADOR"]
+            },
+            { 
+                id: 2, 
+                nombre: "Módulos", 
+                descripcion: "Administración de módulos del sistema",
+                activo: true,
+                roles: ["ADMINISTRADOR"]
+            },
+            { 
+                id: 3, 
+                nombre: "Roles", 
+                descripcion: "Gestión de roles y permisos",
+                activo: true,
+                roles: ["ADMINISTRADOR"]
+            },
+            { 
+                id: 4, 
+                nombre: "Configuración", 
+                descripcion: "Configuración general del sistema",
+                activo: true,
+                roles: ["ADMINISTRADOR", "TECNICO"]
+            },
+            { 
+                id: 5, 
+                nombre: "Asistencia", 
+                descripcion: "Control de asistencia y participación",
+                activo: true,
+                roles: ["ADMINISTRADOR", "PROFESOR"]
+            },
+            { 
+                id: 6, 
+                nombre: "Calificaciones", 
+                descripcion: "Registro y gestión de calificaciones",
+                activo: true,
+                roles: ["ADMINISTRADOR", "PROFESOR"]
+            },
+            { 
+                id: 7, 
+                nombre: "Incidencias", 
+                descripcion: "Sistema de reporte y seguimiento de incidencias",
+                activo: true,
+                roles: ["ADMINISTRADOR", "PROFESOR", "GESTOR_INCIDENCIAS", "TECNICO"]
+            },
+            { 
+                id: 8, 
+                nombre: "Reportes", 
+                descripcion: "Generación de informes y estadísticas",
+                activo: true,
+                roles: ["ADMINISTRADOR", "GESTOR_INCIDENCIAS"]
+            },
+            { 
+                id: 9, 
+                nombre: "Notificaciones", 
+                descripcion: "Sistema de alertas y notificaciones",
+                activo: true,
+                roles: ["ADMINISTRADOR", "PROFESOR", "GESTOR_INCIDENCIAS"]
+            },
+            { 
+                id: 10, 
+                nombre: "Backups", 
+                descripcion: "Gestión de copias de seguridad",
+                activo: false,
+                roles: ["ADMINISTRADOR", "TECNICO"]
+            }
+        ];
+
+        let moduloIdAEliminar = null;
+
+        // Cargar datos al iniciar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarModulos();
+
+            // Event listener para buscar módulos
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                buscarModulos();
+            });
+
+            // Event listener para filtro de estado
+            document.getElementById('filterEstado').addEventListener('change', buscarModulos);
+
+            // Event listener para botón nuevo módulo
+            document.getElementById('btnNuevoModulo').addEventListener('click', function() {
+                alert('Funcionalidad de crear nuevo módulo');
+                // Aquí iría la lógica para abrir un formulario de creación
+            });
+
+            // Event listener para switch de estado en el formulario de edición
+            document.getElementById('editActivo').addEventListener('change', function() {
+                const estadoTexto = document.getElementById('estadoTexto');
+                estadoTexto.textContent = this.checked ? 'Activo' : 'Inactivo';
+            });
+        });
+
+        function buscarModulos() {
+            const busqueda = document.getElementById('searchInput').value.toLowerCase();
+            const estado = document.getElementById('filterEstado').value;
+
+            const modulosFiltrados = modulos.filter(modulo => {
+                const coincideBusqueda = busqueda === '' || 
+                    modulo.nombre.toLowerCase().includes(busqueda) ||
+                    modulo.descripcion.toLowerCase().includes(busqueda);
+
+                const coincideEstado = estado === '' || 
+                    (estado === 'true' && modulo.activo) || 
+                    (estado === 'false' && !modulo.activo);
+
+                return coincideBusqueda && coincideEstado;
+            });
+
+            cargarModulosEnTabla(modulosFiltrados);
+        }
+
+        function cargarModulos() {
+            cargarModulosEnTabla(modulos);
+        }
+
+        function cargarModulosEnTabla(modulosList) {
+            const tbody = document.getElementById('modulosTableBody');
+            tbody.innerHTML = '';
+
+            modulosList.forEach(modulo => {
+                const tr = document.createElement('tr');
+
+                // Crear celda para roles con badges
+                const rolesHTML = modulo.roles.map(r => `<span class="badge">${r}</span>`).join(' ');
+
+                tr.innerHTML = `
+                    <td>${modulo.id}</td>
+                    <td>${modulo.nombre}</td>
+                    <td>${modulo.descripcion}</td>
+                    <td>${rolesHTML}</td>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" ${modulo.activo ? 'checked' : ''} onchange="cambiarEstado(${modulo.id}, this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                        <span style="margin-left: 10px;">${modulo.activo ? 'Activo' : 'Inactivo'}</span>
+                    </td>
+                    <td class="actions-column">
+                        <button class="action-button view" title="Ver detalles" onclick="verModulo(${modulo.id})"><i class="fas fa-eye"></i></button>
+                        <button class="action-button edit" title="Editar módulo" onclick="editarModulo(${modulo.id})"><i class="fas fa-edit"></i></button>
+                        <button class="action-button delete" title="Eliminar módulo" onclick="confirmarEliminar(${modulo.id})"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cambiarEstado(id, estado) {
+            // En una aplicación real, esto sería una petición AJAX al servidor
+            const modulo = modulos.find(m => m.id === id);
+            modulo.activo = estado;
+
+            // Actualizar la interfaz
+            cargarModulos();
+
+            // Mensaje de confirmación
+            alert(`Módulo "${modulo.nombre}" ${estado ? 'activado' : 'desactivado'} correctamente`);
+        }
+
+        function verModulo(id) {
+            const modulo = modulos.find(m => m.id === id);
+            const detallesDiv = document.getElementById('moduloDetalles');
+
+            // Generar HTML para los detalles
+            const rolesHTML = modulo.roles.map(r => `<span class="badge">${r}</span>`).join(' ');
+
+            detallesDiv.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong>ID:</strong> ${modulo.id}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Nombre:</strong> ${modulo.nombre}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Descripción:</strong> ${modulo.descripcion}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Estado:</strong> ${modulo.activo ? 'Activo' : 'Inactivo'}
+                </div>
+                <div>
+                    <strong>Roles con acceso:</strong><br>
+                    <div style="margin-top: 5px;">${rolesHTML}</div>
+                </div>
+            `;
+
+            document.getElementById('viewModal').style.display = 'block';
+        }
+
+        function editarModulo(id) {
+            const modulo = modulos.find(m => m.id === id);
+
+            // Llenar el formulario con los datos del módulo
+            document.getElementById('editId').value = modulo.id;
+            document.getElementById('editNombre').value = modulo.nombre;
+            document.getElementById('editDescripcion').value = modulo.descripcion;
+            document.getElementById('editActivo').checked = modulo.activo;
+            document.getElementById('estadoTexto').textContent = modulo.activo ? 'Activo' : 'Inactivo';
+
+            // Mostrar el modal
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function guardarModulo() {
+            const id = parseInt(document.getElementById('editId').value);
+            const nombre = document.getElementById('editNombre').value;
+            const descripcion = document.getElementById('editDescripcion').value;
+            const activo = document.getElementById('editActivo').checked;
+
+            // Validación básica
+            if (!nombre.trim()) {
+                alert('El nombre del módulo es obligatorio');
+                return;
+            }
+
+            // En una aplicación real, esto sería una petición AJAX al servidor
+            const modulo = modulos.find(m => m.id === id);
+            modulo.nombre = nombre;
+            modulo.descripcion = descripcion;
+            modulo.activo = activo;
+
+            // Actualizar la interfaz
+            cargarModulos();
+
+            // Cerrar el modal
+            cerrarModalEditar();
+
+            // Mensaje de confirmación
+            alert(`Módulo "${nombre}" actualizado correctamente`);
+        }
+
+        function confirmarEliminar(id) {
+            moduloIdAEliminar = id;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function cerrarModalDetalles() {
+            document.getElementById('viewModal').style.display = 'none';
+        }
+
+        function cerrarModalEditar() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function eliminarModulo() {
+            const modulo = modulos.find(m => m.id === moduloIdAEliminar);
+
+            // En una aplicación real, esto sería una petición AJAX al servidor
+            const index = modulos.findIndex(m => m.id === moduloIdAEliminar);
+            if (index !== -1) {
+                modulos.splice(index, 1);
+            }
+
+            // Actualizar la interfaz
+            cargarModulos();
+
+            // Cerrar el modal
+            cerrarModal();
+
+            // Mensaje de confirmación
+            alert(`Módulo "${modulo.nombre}" eliminado correctamente`);
+        }
+
+        // Cerrar los modales si se hace clic fuera de ellos
+        window.onclick = function(event) {
+            const deleteModal = document.getElementById('deleteModal');
+            const viewModal = document.getElementById('viewModal');
+            const editModal = document.getElementById('editModal');
+
+            if (event.target == deleteModal) {
+                cerrarModal();
+            }
+
+            if (event.target == viewModal) {
+                cerrarModalDetalles();
+            }
+
+            if (event.target == editModal) {
+                cerrarModalEditar();
+            }
+        };
+    </script>
+</body>
+</html>

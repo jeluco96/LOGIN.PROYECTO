@@ -1,0 +1,451 @@
+/* Estilos para tablas y listados */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: var(--font-size-h2);
+    color: var(--color-primary-dark);
+}
+
+.action-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: var(--font-size-normal);
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.action-button i {
+    margin-right: 5px;
+}
+
+.action-button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.create-button {
+    background-color: var(--color-success);
+}
+
+.create-button:hover {
+    background-color: #1e7e34;
+}
+
+.cancel-button {
+    background-color: var(--color-warning);
+    color: var(--color-black);
+}
+
+.cancel-button:hover {
+    background-color: #e0a800;
+}
+
+.delete-button {
+    background-color: var(--color-danger);
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Filtros */
+.filter-container {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-input, .filter-select {
+    padding: 10px;
+    border: 1px solid var(--color-grey);
+    border-radius: 5px;
+    font-size: var(--font-size-normal);
+}
+
+.search-input {
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.filter-select {
+    min-width: 150px;
+}
+
+/* Tabla de datos */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-white);
+}
+
+.data-table th {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.data-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--color-grey);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: rgba(88, 107, 229, 0.05);
+}
+
+.data-table tr:hover {
+    background-color: rgba(88, 107, 229, 0.1);
+}
+
+/* Acciones en tablas */
+.actions-cell {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 5px;
+    color: var(--color-primary);
+    padding: 5px;
+}
+
+.icon-button:hover {
+    color: var(--color-primary-dark);
+}
+
+.icon-button.edit:hover {
+    color: var(--color-primary-dark);
+}
+
+.icon-button.view:hover {
+    color: var(--color-success);
+}
+
+.icon-button.delete:hover {
+    color: var(--color-danger);
+}
+
+/* Badges de estado */
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status-badge.active {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: #155724;
+}
+
+.status-badge.inactive {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #721c24;
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover:not([disabled]) {
+    background-color: var(--color-primary-dark);
+}
+
+.pagination-button[disabled] {
+    background-color: var(--color-grey);
+    cursor: not-allowed;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-size: var(--font-size-normal);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: var(--color-white);
+    margin: 15% auto;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 80%;
+    max-width: 500px;
+    animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+    from {transform: translateY(-50px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+.modal-header {
+    padding: 15px 20px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: var(--font-size-h2);
+}
+/* Estilos de tablas para GUZPASEN */
+
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.data-table thead {
+    background-color: #586BE5;
+    color: white;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.data-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.actions-column {
+    width: 150px;
+    text-align: center !important;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.action-button:hover {
+    background-color: #e9ecef;
+}
+
+.action-button.edit {
+    color: #28a745;
+}
+
+.action-button.delete {
+    color: #dc3545;
+}
+
+.action-button.view {
+    color: #17a2b8;
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    list-style-type: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #586BE5;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #e9ecef;
+}
+
+.pagination .active a {
+    background-color: #586BE5;
+    color: white;
+    border-color: #586BE5;
+}
+
+/* Filtros y búsqueda */
+.table-filters {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.search-button {
+    background-color: #586BE5;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #4559d1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
+        display: block;
+    }
+
+    .data-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .data-table tr {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .data-table td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+
+    .data-table td:before {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    /* Añadir etiquetas para cada columna */
+    .data-table td:nth-of-type(1):before { content: "ID"; }
+    .data-table td:nth-of-type(2):before { content: "Nombre"; }
+    .data-table td:nth-of-type(3):before { content: "Descripción"; }
+    .data-table td:nth-of-type(4):before { content: "Fecha"; }
+    .data-table td:nth-of-type(5):before { content: "Estado"; }
+    .data-table td:nth-of-type(6):before { content: "Acciones"; }
+
+    .actions-column {
+        width: 100%;
+        text-align: center !important;
+    }
+}
+.close-modal {
+    color: var(--color-white);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid var(--color-grey);
+}

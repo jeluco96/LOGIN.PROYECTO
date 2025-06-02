@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="header(sectionName)" class="main-header">
+        <!-- Logo del instituto -->
+        <a href="https://blogsaverroes.juntadeandalucia.es/iestorrredelosguzmanes/" class="logo-link" target="_blank">
+            <img th:src="@{/images/logo.png}" alt="Logo IES Torre de los Guzmanes" class="logo">
+        </a>
+
+        <!-- Botones de navegación -->
+        <div class="nav-buttons">
+            <button class="back-button" onclick="goBack()" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </button>
+
+            <a th:href="@{/dashboard}" class="home-button" title="Ir a la página principal">
+                <i class="fas fa-home"></i> Inicio
+            </a>
+        </div>
+
+        <!-- Nombre de la sección -->
+        <h1 class="section-title" th:text="${sectionName ?: 'GUZPASEN'}">GUZPASEN</h1>
+
+        <!-- Información del usuario y logout -->
+        <div class="user-area">
+            <span class="user-name">Administrador Sistema</span>
+            <span class="user-role">ADMINISTRADOR</span>
+            <a th:href="@{/auth/logout}" class="logout-button" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </a>
+        </div>
+    </header>
+</body>
+</html>

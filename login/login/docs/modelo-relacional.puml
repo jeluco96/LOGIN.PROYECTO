@@ -1,0 +1,66 @@
+@startuml Modelo Relacional GUZPASEN
+
+!theme plain
+
+skinparam backgroundColor white
+skinparam roundcorner 15
+skinparam class {
+  BackgroundColor LightSkyBlue
+  ArrowColor Black
+  BorderColor Navy
+}
+
+' Tablas del esquema
+class "usuario" as usuario {
+  id_usuario : BIGINT <<PK>>
+  nombre : VARCHAR(255) NOT NULL
+  apellidos : VARCHAR(255) NOT NULL
+  email : VARCHAR(255) NOT NULL <<UK>>
+  clave : VARCHAR(255) NOT NULL
+  activo : BOOLEAN DEFAULT TRUE
+  rol_id : BIGINT NOT NULL <<FK>>
+  usuario_movil : BOOLEAN DEFAULT FALSE
+  grupo : VARCHAR(255)
+}
+
+class "rol" as rol {
+  id_rol : BIGINT <<PK>>
+  nombre : VARCHAR(255) NOT NULL <<UK>>
+  descripcion : VARCHAR(255)
+}
+
+class "modulo" as modulo {
+  id_modulo : BIGINT <<PK>>
+  nombre : VARCHAR(255) NOT NULL <<UK>>
+  descripcion : VARCHAR(255)
+  activo : BOOLEAN DEFAULT TRUE
+}
+
+class "rol_modulo" as rolmodulo {
+  id : BIGINT <<PK>>
+  rol_id : BIGINT NOT NULL <<FK>>
+  modulo_id : BIGINT NOT NULL <<FK>>
+}
+
+class "usuario_modulo" as usuariomodulo {
+  usuario_id : BIGINT NOT NULL <<FK>>
+  modulo_id : BIGINT NOT NULL <<FK>>
+  <<PK(usuario_id, modulo_id)>>
+}
+
+class "usuario_rol" as usuariorol {
+  usuario_id : BIGINT NOT NULL <<FK>>
+  rol_id : BIGINT NOT NULL <<FK>>
+  <<PK(usuario_id, rol_id)>>
+}
+
+' Relaciones (claves foráneas)
+usuario --> rol : rol_id
+usuariomodulo --> usuario : usuario_id
+usuariomodulo --> modulo : modulo_id
+usuariorol --> usuario : usuario_id
+usuariorol --> rol : rol_id
+rolmodulo --> rol : rol_id
+rolmodulo --> modulo : modulo_id
+
+@enduml
